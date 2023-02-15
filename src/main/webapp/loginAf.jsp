@@ -22,7 +22,7 @@ if (mem != null) {
 
 <script type="text/javascript">
 	alert("환영합니다 <%=mem.getName() %>님");
-	//location.href= "";
+	location.href= "bbslist.jsp";
 </script>
 
 <%

@@ -24,7 +24,7 @@ public class DBConnection {
 
 		Connection conn = null;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://192.168.219.104:3306/mydb", "root", "1234");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "root", "1234");
 			
 			System.out.println("Connection Success");
 			

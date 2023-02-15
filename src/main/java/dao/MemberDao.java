@@ -98,7 +98,6 @@ public class MemberDao {
 				+" where id = ? and pwd = ?";
 		
 		Connection conn = null;
-		System.out.println("1/3 login Success");
 		PreparedStatement psmt = null;
 		ResultSet rs = null;
 		
@@ -106,6 +105,7 @@ public class MemberDao {
 		
 		try {
 			conn = DBConnection.getConnection();
+			System.out.println("1/3 login Success");
 			psmt = conn.prepareStatement(sql);
 			
 			psmt.setString(1, id);
