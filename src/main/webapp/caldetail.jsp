@@ -1,16 +1,9 @@
+<%@page import="util.CalendarUtil"%>
+<%@page import="dto.CalendarDto"%>
+<%@page import="dao.CalendarDao"%>
 <%@page import="dto.MemberDto"%>
-<%@page import="dao.BbsDao"%>
-<%@page import="dto.BbsDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-
-<!-- 
-
-*************************** ref 그룹번호  step 행번호 depth : 깊이번호
-															
-
- -->
 
 
 
@@ -31,9 +24,10 @@ if (login == null) { // session 만료됐을때
 
 
 <%
-BbsDao dao = BbsDao.getInstance();
+CalendarDao dao = CalendarDao.getInstance();
 int seq = Integer.parseInt(request.getParameter("seq"));
-BbsDto dto = dao.getBbs(seq);
+
+CalendarDto dto = dao.getdetail(seq);
 %>
 
 
@@ -102,17 +96,11 @@ p {
 				<td><%=dto.getTitle()%></td>
 			</tr>
 			<tr>
-				<th>작성일</th>
-				<td><%=dto.getWdate()%></td>
+				<th>스케줄</th>
+				<td><%=CalendarUtil.toDates(dto.getRdate())%></td>
 			</tr>
-			<tr>
-				<th>조회수</th>
-				<td><%=dto.getReadcount()%></td>
-			</tr>
-			<tr>
-				<th>답글정보</th>
-				<td><%=dto.getRef()%>-<%=dto.getStep()%>-<%=dto.getDepth()%></td>
-			</tr>
+
+
 			<tr style="width: 1000px; height: 500px;">
 				<th>내용</th>
 				<td><%=dto.getContent()%></td>
@@ -130,37 +118,41 @@ p {
 		<%
 		if (dto.getId().equals(login.getId())) {
 		%>
-		<button type="button" onclick="updateBbs(<%=dto.getSeq()%>)"
+		<button type="button"
+			onclick="updateCal(<%=dto.getSeq()%>,<%=dto.getRdate()%> )"
 			class="btn">수정하기</button>
-		<button type="button" onclick="deleteBbs(<%=dto.getSeq()%>)"
+		<button type="button" onclick="deleteCal(<%=dto.getSeq()%>)"
 			class="btn">삭제하기</button>
 		<%
 		}
 		%>
-		<button type="button" onclick="answerBbs(<%=dto.getSeq()%>)"
-			class="btn">댓글</button>
 
 	</div>
 
 	<button type="button" onclick="history.back()" class="btn">목록보기</button>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-function answerBbs(seq){
-	
-	location.href = "answer.jsp?seq=" + seq;
-}
-function deleteBbs(seq){
-	
-	location.href = "delete.jsp?seq=" + seq; // update시켜서 del을 1로 만들고 투명화
-	
-}
-function updateBbs(seq){
-	
-	location.href = "update.jsp?seq=" + seq;
-	
-}
 
+ 
+	
+ 
+
+function updateCal(seq, date){
+	
+	 let year = String(date).substring(0, 4);
+ 	let month = String(date).substring(4, 6);
+	 let day = String(date).substring(6, 8);
+	location.href = "updateCal.jsp?seq=" + seq + "&year=" + year + "&month=" + month + "&day=" + day; 
+	
+	
+}
+function deleteCal(seq){
+	
+	location.href = "deleteCal.jsp?seq=" + seq;
+	
+}
+ 
 
 </script>
 
