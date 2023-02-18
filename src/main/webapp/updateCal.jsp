@@ -1,6 +1,7 @@
+<%@page import="util.CalendarUtil"%>
+<%@page import="dto.CalendarDto"%>
+<%@page import="dao.CalendarDao"%>
 <%@page import="dto.MemberDto"%>
-<%@page import="dao.BbsDao"%>
-<%@page import="dto.BbsDto"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -31,9 +32,27 @@ if (login == null) { // session 만료됐을때
 
 
 <%
-BbsDao dao = BbsDao.getInstance();
+CalendarDao dao = CalendarDao.getInstance();
 int seq = Integer.parseInt(request.getParameter("seq"));
-BbsDto dto = dao.getBbs(seq);
+CalendarDto dto = dao.getdetail(seq);
+
+
+
+%>
+<%
+
+String year = request.getParameter("year");
+String month = request.getParameter("month");
+String day = request.getParameter("day");
+
+System.out.println("fwieofjweoifewfweofjwe : " + year);
+
+
+month = CalendarUtil.two(month);
+day = CalendarUtil.two(day);
+
+
+
 %>
 
 
@@ -90,32 +109,30 @@ p {
 
 </head>
 <body>
-	<span></span>
+	<form action="updateCalAf.jsp">
 	<div align="center">
 		<table border="1" width="800">
 			<tr>
 				<th>작성자</th>
-				<td><%=dto.getId()%></td>
+				<td><%=dto.getId()%><input type="hidden" name="id">
+				<input type="hidden" name="seq" value="<%=dto.getSeq()%>">
+				</td>
 			</tr>
 			<tr>
 				<th>제목</th>
-				<td><%=dto.getTitle()%></td>
+				<td><input type="text" value="<%=dto.getTitle()%>" name="title"></td>
 			</tr>
 			<tr>
-				<th>작성일</th>
-				<td><%=dto.getWdate()%></td>
+				<th>스케줄</th>
+				<td><input type="hidden" name="rdate">  <input type="date" name="date" id="date">&nbsp;
+				<input type="time" name="time" id="time"></td>
+				
 			</tr>
-			<tr>
-				<th>조회수</th>
-				<td><%=dto.getReadcount()%></td>
-			</tr>
-			<tr>
-				<th>답글정보</th>
-				<td><%=dto.getRef()%>-<%=dto.getStep()%>-<%=dto.getDepth()%></td>
-			</tr>
+			
+			
 			<tr style="width: 1000px; height: 500px;">
 				<th>내용</th>
-				<td><%=dto.getContent()%></td>
+				<td><textarea style="width: 100%; height: 100%" name="content" id="content"><%=dto.getContent()%></textarea></td>
 			</tr>
 
 
@@ -130,42 +147,22 @@ p {
 		<%
 		if (dto.getId().equals(login.getId())) {
 		%>
-		<button type="button" onclick="updateBbs(<%=dto.getSeq()%>)"
-			class="btn">수정하기</button>
-		<button type="button" onclick="deleteBbs(<%=dto.getSeq()%>)"
-			class="btn">삭제하기</button>
-		<%
+		<input type="submit" class="btn" value="수정하기">
+		<% 
 		}
 		%>
-		<button type="button" onclick="answerBbs(<%=dto.getSeq()%>)"
-			class="btn">댓글</button>
 
 	</div>
-
+</form>
 	<button type="button" onclick="history.back()" class="btn">목록보기</button>
 
 <script type="text/javascript">
 
-function answerBbs(seq){
-	
-	location.href = "answer.jsp?seq=" + seq;
-}
-function deleteBbs(seq){
-	
-	location.href = "delete.jsp?seq=" + seq; // update시켜서 del을 1로 만들고 투명화
-	
-}
-function updateBbs(seq){
-	
-	location.href = "update.jsp?seq=" + seq;
-	
-}
-
-
+let year = "<%=year%>";
+let month = "<%=month%>";
+let day = "<%=day%>";
+document.getElementById("date").value = year + "-" + month + "-" + day; 
 </script>
-
-
-
 
 
 </body>

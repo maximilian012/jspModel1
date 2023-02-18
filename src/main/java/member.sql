@@ -3,7 +3,7 @@
 drop table member;
 
 select * from member;
-
+select * from bbs;
 create table member(
 	id varchar(50) primary key,
 	pwd varchar(50) not null,

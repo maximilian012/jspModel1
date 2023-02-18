@@ -82,7 +82,11 @@ table {
 p {
 	line-height: 0.5em;
 }
+
+
 </style>
+
+
 
 
 
@@ -135,6 +139,17 @@ p {
 
 	<!-- 페이지 뿌려주는곳!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 	<h1>게시판</h1>
+	
+		
+<br>
+<a href="calendar.jsp">일정관리</a>
+
+
+<div align="right">
+<button onclick="logout()" class="btn">logout</button>
+</div>
+<hr>
+<br>
 
 	<div align="center">
 
@@ -167,21 +182,23 @@ p {
 				for (int i = 0; i < list.size(); i++) {
 
 					BbsDto dto = list.get(i);
-					if (list.get(i).getDel() == 1) {
-				%>
-				<td>*****************이 글은 관리자에 의해 삭제되었습니다.</td>
-				<%
-				continue;
-				}
 				%>
 				<tr>
 					<th><%=i + 1%></th>
-
-
+					<%
+					
+					if (list.get(i).getDel() == 1) {
+					%>
+						<td>*****************이 글은 관리자에 의해 삭제되었습니다.</td>
+					<%
+					continue;
+					}
+					
+					
+					%>
 
 					<!--********************* 화살표 모양 나오는곳 ********************************************************************-->
-					<td><%=arrow(dto.getDepth())%><a
-						href="bbsdetail.jsp?seq=<%=dto.getSeq()%>"><%=dto.getTitle()%></a>
+					<td><%=arrow(dto.getDepth())%><a href="bbsdetail.jsp?seq=<%=dto.getSeq()%>"><%=dto.getTitle()%></a>
 
 					</td>
 					<td><%=dto.getReadcount()%></td>
@@ -250,14 +267,7 @@ function searchBtn(){
 	let choice = document.getElementById('choice').value;
 	let search = document.getElementById('search').value;
 	
-/* 	if (choice == "") {
-		alert("카테고리를 선택해라!");
-		return; // return 되면서 다시 보여줌
-	}
-	if (search.trim() == "") {
-		alert('검색어를 선택해라');
-		return;
-	} */
+
 	
 	location.href = "bbslist.jsp?choice=" + choice + "&search=" + search;
 }
@@ -268,6 +278,15 @@ function goPage( pageNum ){
 	let search = document.getElementById('search').value;
 	
 	location.href = "bbslist.jsp?choice=" + choice + "&search=" + search + "&pageNum=" + pageNum;
+	
+}
+
+
+function logout(){
+	
+	alert('정말 로그아웃 하시겠습니까?');
+	location.href = "logout.jsp";
+	
 	
 }
 
